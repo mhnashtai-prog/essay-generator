@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Essay Composer - Full Phrase Libraries</title>
+    <title>INTUITY - Essay Generator</title>
     <style>
         * {
             margin: 0;
@@ -37,26 +37,53 @@
             margin: 0 auto;
         }
 
+        /* SIGNATURE HEADER */
         .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+        }
+
+        .header .author {
+            font-size: 0.85rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .header .product {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* CONTROL BAR */
+        .control-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
             flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .header-left h1 {
-            font-size: 2rem;
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            gap: 15px;
         }
 
         .mode-toggle {
@@ -198,6 +225,23 @@
             color: white;
         }
 
+        /* IDEAS BUTTON - Special styling */
+        .dropdown-btn.ideas-btn {
+            background: rgba(255, 215, 0, 0.15);
+            border-color: rgba(255, 215, 0, 0.5);
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .dropdown-btn.ideas-btn:hover {
+            background: rgba(255, 215, 0, 0.25);
+        }
+
+        .dropdown-btn.ideas-btn.active {
+            background: var(--gold);
+            color: #1a1a1a;
+        }
+
         .dropdown-panel {
             display: none;
             margin-bottom: 15px;
@@ -210,6 +254,58 @@
         .dropdown-panel.active {
             display: block;
             animation: slideDown 0.3s ease;
+        }
+
+        /* IDEAS PANEL - Special styling */
+        .dropdown-panel.ideas-panel {
+            border-color: rgba(212, 175, 55, 0.5);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .ideas-content {
+            padding: 20px;
+        }
+
+        .idea-section {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            border-left: 3px solid var(--gold);
+        }
+
+        .idea-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .idea-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .idea-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .idea-list li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .idea-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
         }
 
         @keyframes slideDown {
@@ -247,10 +343,6 @@
         .level.academic .level-header {
             background: rgba(76, 175, 80, 0.15);
             color: #66bb6a;
-        }
-
-        .level-header:hover {
-            opacity: 0.8;
         }
 
         .level-content {
@@ -623,18 +715,21 @@
 </head>
 <body>
     <div class="container">
+        <!-- SIGNATURE HEADER -->
         <div class="header">
-            <div class="header-centre">
-                <h1>INTUITY</h1>
-                <p class="subtitle">Majid Nashtai - Scrollable Phrase Libraries</p>
-            </div>
+            <h1>INTUITY</h1>
+            <p class="subtitle">Intuitive & Immersive</p>
+            <p class="author">Majid Nashtai</p>
+            <p class="product">Essay Generator</p>
+        </div>
+
+        <div class="control-bar">
+            <div class="topics" id="topics"></div>
             <div class="mode-toggle">
                 <button class="mode-btn active" onclick="setMode('full')">📄 Full</button>
                 <button class="mode-btn" onclick="setMode('paragraph')">📋 Para</button>
             </div>
         </div>
-
-        <div class="topics" id="topics"></div>
 
         <div class="para-nav">
             <button class="nav-btn" id="prevBtn" onclick="navigateSection(-1)">← Previous</button>
@@ -699,374 +794,235 @@
     <script>
         const phraseBank = {
             background: {
-                natural: [
-                    'Nowadays',
-                    'Today',
-                    'These days',
-                    'We can all accept the fact that',
-                    'It is often argued that',
-                    'It is generally assumed that',
-                    'There is a growing recognition that',
-                    'It is common knowledge that',
-                    'Over the past few years',
-                    'Recent studies show that',
-                    'Few people would deny that',
-                    'It has always played a significant role'
-                ],
-                intermediate: [
-                    'In recent years we have seen a notable',
-                    'We have seen a considerable',
-                    'We are observing a trend with regard to',
-                    'There has been a steady/gradual shift in',
-                    'There has been a noticeable change towards/in',
-                    'There has been a marked increase in',
-                    'is commonly viewed as increasingly',
-                    'is broadly seen as',
-                    'More and more',
-                    'has a reputation for',
-                    'is quite often perceived as',
-                    'is widely regarded as'
-                ],
-                academic: [
-                    'Over the past decade, there has been a significant increase in',
-                    'Contemporary research suggests that',
-                    'It is widely recognized/believed that',
-                    'There is indisputable perception that',
-                    'Critics often maintain/contend that',
-                    'There has been considerable criticism regarding',
-                    'There is a broad generalization that',
-                    'There is no shortage enough evidence to indicate that',
-                    'It has always played a significant role in our lives',
-                    'have indisputably become inseparable from',
-                    'Recent studies show that',
-                    'There has been a significant increase'
-                ]
+                natural: ['Nowadays', 'Today', 'These days', 'We can all accept the fact that', 'It is often argued that', 'It is generally assumed that', 'There is a growing recognition that', 'It is common knowledge that', 'Over the past few years', 'Recent studies show that', 'Few people would deny that', 'It has always played a significant role'],
+                intermediate: ['In recent years we have seen a notable', 'We have seen a considerable', 'We are observing a trend with regard to', 'There has been a steady/gradual shift in', 'There has been a noticeable change towards/in', 'There has been a marked increase in', 'is commonly viewed as increasingly', 'is broadly seen as', 'More and more', 'has a reputation for', 'is quite often perceived as', 'is widely regarded as'],
+                academic: ['Over the past decade, there has been a significant increase in', 'Contemporary research suggests that', 'It is widely recognized/believed that', 'There is indisputable perception that', 'Critics often maintain/contend that', 'There has been considerable criticism regarding', 'There is a broad generalization that', 'There is no shortage enough evidence to indicate that', 'It has always played a significant role in our lives', 'have indisputably become inseparable from', 'Recent studies show that', 'There has been a significant increase']
             },
             aim: {
-                natural: [
-                    "So we should look at",
-                    "Let's talk about",
-                    'This essay is about',
-                    'We need to think about'
-                ],
-                intermediate: [
-                    'Therefore it is important',
-                    'Hence we should consider',
-                    'This essay will examine',
-                    'It is vital to analyze',
-                    'Consequently, it is essential that we study',
-                    'Therefore, it is vital that we analyze the pros and cons of',
-                    'it is important to express our views regarding',
-                    'it is important to discuss whether'
-                ],
-                academic: [
-                    'Thus this essay seeks to analyze',
-                    'Consequently this discourse will evaluate',
-                    'This examination will critically assess',
-                    'Therefore, we should find ways in which we can address/deal with/tackle this problem/issue',
-                    'Consequently, all steps must be taken to tackle/deal with/address this',
-                    'Hence, how can we deal with/tackle this problem?',
-                    'Therefore, it is imperatives to discuss the causes/the impact of',
-                    'Hence, we need to understand what causes/ impacts',
-                    'What are the real causes of...? What are the reasons behind..?'
-                ]
+                natural: ["So we should look at", "Let's talk about", 'This essay is about', 'We need to think about'],
+                intermediate: ['Therefore it is important', 'Hence we should consider', 'This essay will examine', 'It is vital to analyze', 'Consequently, it is essential that we study', 'Therefore, it is vital that we analyze the pros and cons of', 'it is important to express our views regarding', 'it is important to discuss whether'],
+                academic: ['Thus this essay seeks to analyze', 'Consequently this discourse will evaluate', 'This examination will critically assess', 'Therefore, we should find ways in which we can address/deal with/tackle this problem/issue', 'Consequently, all steps must be taken to tackle/deal with/address this', 'Hence, how can we deal with/tackle this problem?', 'Therefore, it is imperatives to discuss the causes/the impact of', 'Hence, we need to understand what causes/ impacts', 'What are the real causes of...? What are the reasons behind..?']
             },
             listing: {
-                natural: [
-                    'First',
-                    'To begin with',
-                    'First of all',
-                    'In the first place',
-                    'For one thing',
-                    'Second',
-                    'Secondly',
-                    'Apart from that',
-                    'Moreover',
-                    'Furthermore',
-                    'Third',
-                    'Thirdly',
-                    'In addition',
-                    'Besides',
-                    'Apart from...ing',
-                    'Also',
-                    'On the other hand',
-                    'However'
-                ],
-                intermediate: [
-                    'Firstly',
-                    'Secondly',
-                    'Moreover',
-                    'Furthermore',
-                    'In addition',
-                    'However',
-                    'On the contrary',
-                    'Nevertheless'
-                ],
-                academic: [
-                    'To begin with',
-                    'Moreover',
-                    'Furthermore',
-                    'On the other hand',
-                    'Conversely',
-                    'Notwithstanding'
-                ]
+                natural: ['First', 'To begin with', 'First of all', 'In the first place', 'For one thing', 'Second', 'Secondly', 'Apart from that', 'Moreover', 'Furthermore', 'Third', 'Thirdly', 'In addition', 'Besides', 'Apart from...ing', 'Also', 'On the other hand', 'However'],
+                intermediate: ['Firstly', 'Secondly', 'Moreover', 'Furthermore', 'In addition', 'However', 'On the contrary', 'Nevertheless'],
+                academic: ['To begin with', 'Moreover', 'Furthermore', 'On the other hand', 'Conversely', 'Notwithstanding']
             },
             opinion: {
-                natural: [
-                    'I think',
-                    'I believe',
-                    'In my opinion',
-                    'It is my sincere belief that',
-                    'It seems to me',
-                    'It is beyond doubt that',
-                    'From my point of view',
-                    'as far as I can judge',
-                    'It is important to acknowledge'
-                ],
-                intermediate: [
-                    'It seems to me',
-                    'It appears that',
-                    'I would argue',
-                    'It is often maintained that',
-                    'It is often argued that',
-                    'It is commonly known that',
-                    'It is widely held that',
-                    'It is commonly/widely believed that',
-                    'It is generally thought that',
-                    'It is often assumed/maintained that',
-                    'It is widely held that'
-                ],
-                academic: [
-                    'As far as I can judge',
-                    'It is reasonable to suggest',
-                    'From an analytical standpoint',
-                    'It is often maintained/contended that',
-                    'There is widespread perception that',
-                    'Many/Some experts seem to think that',
-                    'There is widespread perception that',
-                    'Critics often maintain/contend that',
-                    'It is likely that',
-                    'One other possibility is that',
-                    'In all likelihood',
-                    'There is every reason that'
-                ]
+                natural: ['I think', 'I believe', 'In my opinion', 'It is my sincere belief that', 'It seems to me', 'It is beyond doubt that', 'From my point of view', 'as far as I can judge', 'It is important to acknowledge'],
+                intermediate: ['It seems to me', 'It appears that', 'I would argue', 'It is often maintained that', 'It is often argued that', 'It is commonly known that', 'It is widely held that', 'It is commonly/widely believed that', 'It is generally thought that', 'It is often assumed/maintained that', 'It is widely held that'],
+                academic: ['As far as I can judge', 'It is reasonable to suggest', 'From an analytical standpoint', 'It is often maintained/contended that', 'There is widespread perception that', 'Many/Some experts seem to think that', 'There is widespread perception that', 'Critics often maintain/contend that', 'It is likely that', 'One other possibility is that', 'In all likelihood', 'There is every reason that']
             },
             claim: {
-                natural: [
-                    'the good thing is',
-                    'the benefit is',
-                    'one advantage is',
-                    'the main advantage of',
-                    'the main argument in favour',
-                    'one positive aspect of'
-                ],
-                intermediate: [
-                    'the main advantage is that',
-                    'one positive aspect is',
-                    'a key benefit is',
-                    'the main argument in favour is that',
-                    'A striking/useful/remarkable feature of'
-                ],
-                academic: [
-                    'the primary advantage is that',
-                    'a significant benefit lies in',
-                    'the fundamental strength is',
-                    'The argument in favour of...is that',
-                    'What sets...apart is its extraordinary',
-                    'The real value of...lies in',
-                    'A significant strength of...is that',
-                    'the obvious drawback is that',
-                    'the argument against'
-                ]
+                natural: ['the good thing is', 'the benefit is', 'one advantage is', 'the main advantage of', 'the main argument in favour', 'one positive aspect of'],
+                intermediate: ['the main advantage is that', 'one positive aspect is', 'a key benefit is', 'the main argument in favour is that', 'A striking/useful/remarkable feature of'],
+                academic: ['the primary advantage is that', 'a significant benefit lies in', 'the fundamental strength is', 'The argument in favour of...is that', 'What sets...apart is its extraordinary', 'The real value of...lies in', 'A significant strength of...is that', 'the obvious drawback is that', 'the argument against']
             },
             reason: {
-                natural: [
-                    'because',
-                    'because they help people',
-                    'since they',
-                    'the',
-                    'This is largely due to/owing to the fact that',
-                    'given that',
-                    'taking into account that',
-                    'One explanation is that'
-                ],
-                intermediate: [
-                    'because platforms provide',
-                    'due to the fact that',
-                    'since systems enable',
-                    'This is largely because',
-                    'This is largely due to',
-                    'owing to'
-                ],
-                academic: [
-                    'because platforms systematically facilitate',
-                    'owing to the comprehensive nature of',
-                    'this is largely attributable to',
-                    'It is vitally important that we...',
-                    'one effective way to deal with this',
-                    'one effective way to tackle',
-                    'one clear solution would be',
-                    'For the best way to tackle',
-                    'The argument against...is that'
-                ]
+                natural: ['because', 'because they help people', 'since they', 'the', 'This is largely due to/owing to the fact that', 'given that', 'taking into account that', 'One explanation is that'],
+                intermediate: ['because platforms provide', 'due to the fact that', 'since systems enable', 'This is largely because', 'This is largely due to', 'owing to'],
+                academic: ['because platforms systematically facilitate', 'owing to the comprehensive nature of', 'this is largely attributable to', 'It is vitally important that we...', 'one effective way to deal with this', 'one effective way to tackle', 'one clear solution would be', 'For the best way to tackle', 'The argument against...is that']
             },
             example: {
-                natural: [
-                    'For example',
-                    'Like when',
-                    'Such as',
-                    'for instance',
-                    'for example',
-                    'In particular',
-                    'particularly',
-                    'especially',
-                    'in particular',
-                    'like',
-                    'In other words',
-                    'that is to say'
-                ],
-                intermediate: [
-                    'For instance',
-                    'To illustrate',
-                    'As demonstrated by',
-                    'To illustrate this'
-                ],
-                academic: [
-                    'To exemplify this',
-                    'This is particularly evident in',
-                    'A salient example is',
-                    'In order to/so as to/with the aim of'
-                ]
+                natural: ['For example', 'Like when', 'Such as', 'for instance', 'for example', 'In particular', 'particularly', 'especially', 'in particular', 'like', 'In other words', 'that is to say'],
+                intermediate: ['For instance', 'To illustrate', 'As demonstrated by', 'To illustrate this'],
+                academic: ['To exemplify this', 'This is particularly evident in', 'A salient example is', 'In order to/so as to/with the aim of']
             },
             result: {
-                natural: [
-                    'So',
-                    "That's why",
-                    'This means',
-                    'As a result',
-                    'Therefore',
-                    'Hence',
-                    'Consequently',
-                    'Yet/still'
-                ],
-                intermediate: [
-                    'Therefore',
-                    'Consequently',
-                    'As a result',
-                    'Thus',
-                    'Hence'
-                ],
-                academic: [
-                    'Thus',
-                    'Hence',
-                    'This consequently facilitates',
-                    'This subsequently enables',
-                    'Accordingly'
-                ]
+                natural: ['So', "That's why", 'This means', 'As a result', 'Therefore', 'Hence', 'Consequently', 'Yet/still'],
+                intermediate: ['Therefore', 'Consequently', 'As a result', 'Thus', 'Hence'],
+                academic: ['Thus', 'Hence', 'This consequently facilitates', 'This subsequently enables', 'Accordingly']
             },
             compare: {
-                natural: [
-                    'Like',
-                    'Same as',
-                    'Also',
-                    'like/unlike',
-                    'compared to',
-                    'in comparison with',
-                    'while/whereas'
-                ],
-                intermediate: [
-                    'Similarly',
-                    'Likewise',
-                    'In the same way',
-                    'By comparison'
-                ],
-                academic: [
-                    'Analogously',
-                    'Correspondingly',
-                    'By the same token',
-                    'Comparatively speaking'
-                ]
+                natural: ['Like', 'Same as', 'Also', 'like/unlike', 'compared to', 'in comparison with', 'while/whereas'],
+                intermediate: ['Similarly', 'Likewise', 'In the same way', 'By comparison'],
+                academic: ['Analogously', 'Correspondingly', 'By the same token', 'Comparatively speaking']
             },
             contrast: {
-                natural: [
-                    'But',
-                    'However',
-                    'Even though',
-                    'although/even though',
-                    'despite/in spite of'
-                ],
-                intermediate: [
-                    'Nevertheless',
-                    'On the contrary',
-                    'Although',
-                    'Despite this',
-                    'In contrast'
-                ],
-                academic: [
-                    'Notwithstanding',
-                    'Conversely',
-                    'Despite this consideration',
-                    'Nonetheless',
-                    'Regardless of its limitations'
-                ]
+                natural: ['But', 'However', 'Even though', 'although/even though', 'despite/in spite of'],
+                intermediate: ['Nevertheless', 'On the contrary', 'Although', 'Despite this', 'In contrast'],
+                academic: ['Notwithstanding', 'Conversely', 'Despite this consideration', 'Nonetheless', 'Regardless of its limitations']
             },
             conclusion: {
-                natural: [
-                    'In the end',
-                    'To finish',
-                    'So overall',
-                    'All things considered',
-                    'All in all',
-                    'In conclusion',
-                    'To sum up'
-                ],
-                intermediate: [
-                    'In conclusion',
-                    'To summarize',
-                    'Overall',
-                    'All things considered',
-                    'To sum up',
-                    'On balance'
-                ],
-                academic: [
-                    'In summation',
-                    'To encapsulate the discourse',
-                    'Upon comprehensive analysis',
-                    'All things considered',
-                    'All in all, in conclusion'
-                ]
+                natural: ['In the end', 'To finish', 'So overall', 'All things considered', 'All in all', 'In conclusion', 'To sum up'],
+                intermediate: ['In conclusion', 'To summarize', 'Overall', 'All things considered', 'To sum up', 'On balance'],
+                academic: ['In summation', 'To encapsulate the discourse', 'Upon comprehensive analysis', 'All things considered', 'All in all, in conclusion']
             },
             finalThought: {
-                natural: [
-                    'I think we should',
-                    'Maybe we can',
-                    'People need to',
-                    'as far as I can judge',
-                    'despite some of the views expressed',
-                    'it is clear that',
-                    'it seems to me',
-                    'despite some of the arguments',
-                    'it is felt that'
-                ],
-                intermediate: [
-                    'It would be beneficial',
-                    'We should consider',
-                    'It is important',
-                    'as far as I\'m concerned',
-                    'even though there are concerns about',
-                    'despite some of the views expressed',
-                    'it is clear that'
-                ],
-                academic: [
-                    'It is imperative that stakeholders',
-                    'Future discourse should prioritize',
-                    'Sustained engagement necessitates',
-                    'As far as I can judge, despite some of the views expressed',
-                    'it is clear that',
-                    'It seems to me, despite some of the arguments',
-                    'it is felt that the benefits of...are enormous',
-                    'as far as I\'m concerned, even though there are concerns'
-                ]
+                natural: ['I think we should', 'Maybe we can', 'People need to', 'as far as I can judge', 'despite some of the views expressed', 'it is clear that', 'it seems to me', 'despite some of the arguments', 'it is felt that'],
+                intermediate: ['It would be beneficial', 'We should consider', 'It is important', 'as far as I\'m concerned', 'even though there are concerns about', 'despite some of the views expressed', 'it is clear that'],
+                academic: ['It is imperative that stakeholders', 'Future discourse should prioritize', 'Sustained engagement necessitates', 'As far as I can judge, despite some of the views expressed', 'it is clear that', 'It seems to me, despite some of the arguments', 'it is felt that the benefits of...are enormous', 'as far as I\'m concerned, even though there are concerns']
+            }
+        };
+
+        const topicIdeas = {
+            social: {
+                intro: {
+                    mainIdea: 'Social media platforms have transformed how we communicate globally',
+                    points: ['Platforms are integral to daily life', 'They offer unprecedented connectivity', 'Privacy concerns are growing', 'Need balanced perspective on benefits and risks']
+                },
+                claim1: {
+                    mainArgument: 'Social media enables instant global communication',
+                    reason: 'Platforms provide real-time interaction tools',
+                    example: 'Families separated by distance maintain close relationships through video calls',
+                    result: 'Geographical barriers no longer prevent meaningful connections'
+                },
+                claim2: {
+                    mainArgument: 'These platforms provide valuable professional networking opportunities',
+                    reason: 'Connect with colleagues and potential employers worldwide',
+                    example: 'Professionals expand career prospects significantly',
+                    result: 'Instant access to global markets unlike traditional networking'
+                },
+                claim3: {
+                    mainArgument: 'Privacy concerns remain serious (COUNTER-ARGUMENT)',
+                    reason: 'Platforms collect personal data',
+                    example: 'Information is often sold to advertisers without explicit consent',
+                    contrast: 'Although problematic, benefits outweigh these concerns'
+                },
+                conclusion: {
+                    summary: 'Social media offers both significant benefits and substantial risks',
+                    finalView: 'Key lies in mindful usage and digital literacy education'
+                }
+            },
+            shopping: {
+                intro: {
+                    mainIdea: 'E-commerce has revolutionized retail practices globally',
+                    points: ['Online shopping has increased significantly', 'Revolutionized retail landscape', 'Traditional stores offer unique advantages', 'Important to consider both sides']
+                },
+                claim1: {
+                    mainArgument: 'Online shopping offers unparalleled convenience',
+                    reason: 'Digital platforms eliminate travel time',
+                    example: 'Consumers browse and purchase products 24/7 from home',
+                    result: 'Shopping becomes effortless'
+                },
+                claim2: {
+                    mainArgument: 'Platforms provide access to wider product ranges',
+                    reason: 'Global marketplace integration',
+                    example: 'Shoppers compare prices across multiple retailers instantly',
+                    result: 'Unlike physical stores, online platforms offer unlimited inventory'
+                },
+                claim3: {
+                    mainArgument: 'E-commerce contributes to environmental concerns (COUNTER)',
+                    reason: 'Excessive packaging and delivery emissions',
+                    example: 'Each individual delivery increases carbon footprint',
+                    contrast: 'Although concerning, sustainable options are emerging'
+                },
+                conclusion: {
+                    summary: 'Online shopping presents remarkable convenience and notable challenges',
+                    finalView: 'Benefits outweigh drawbacks when practiced responsibly'
+                }
+            },
+            travel: {
+                intro: {
+                    mainIdea: 'International travel broadens perspectives and enriches lives',
+                    points: ['Travelling broadens the mind', 'Enriches life experiences', 'Educational benefits despite environmental costs', 'Essential to study both perspectives']
+                },
+                claim1: {
+                    mainArgument: 'Travelling exposes people to diverse cultures and perspectives',
+                    reason: 'Direct cultural immersion breaks down stereotypes',
+                    example: 'Experiencing different traditions firsthand fosters greater understanding',
+                    result: 'Tolerance increases significantly'
+                },
+                claim2: {
+                    mainArgument: 'Exploring new destinations enhances personal growth',
+                    reason: 'Navigating unfamiliar environments independently',
+                    example: 'Travelers build confidence and problem-solving skills',
+                    result: 'Unlike staying home, travel pushes comfort zone boundaries'
+                },
+                claim3: {
+                    mainArgument: 'Air travel contributes to climate change (COUNTER)',
+                    reason: 'Substantial carbon emissions from aviation',
+                    example: 'Single flights produce significant environmental impact',
+                    contrast: 'Although concerning, sustainable tourism practices are emerging'
+                },
+                conclusion: {
+                    summary: 'Travelling offers invaluable experiences alongside environmental responsibilities',
+                    finalView: 'Embrace responsible travel balancing enrichment with ecological preservation'
+                }
+            },
+            cities: {
+                intro: {
+                    mainIdea: 'Urban migration continues accelerating globally',
+                    points: ['Cities offer abundant opportunities', 'Also present unique challenges', 'Important to address this issue']
+                },
+                claim1: {
+                    mainArgument: 'City living provides access to superior career opportunities',
+                    reason: 'Major corporations concentrate in urban centers',
+                    example: 'Professionals earn higher salaries and gain valuable experience',
+                    result: 'Unlike rural areas, cities offer diverse job markets'
+                },
+                claim2: {
+                    mainArgument: 'Urban environments offer extensive cultural amenities',
+                    reason: 'Cities concentrate resources and populations',
+                    example: 'Residents enjoy museums, theaters, diverse restaurants',
+                    result: 'Quality of life improves through cultural richness'
+                },
+                claim3: {
+                    mainArgument: 'Urban living involves exorbitant costs (COUNTER)',
+                    reason: 'High demand for limited housing',
+                    example: 'Rent consumes significant portions of salaries',
+                    contrast: 'Although concerning, cities continue attracting people'
+                },
+                conclusion: {
+                    summary: 'City life presents opportunities and challenges',
+                    finalView: 'Urban centers will continue attracting people seeking advancement'
+                }
+            },
+            english: {
+                intro: {
+                    mainIdea: 'English has become the global lingua franca',
+                    points: ['Communication across cultures is essential', 'Despite debates about linguistic diversity', 'Important to discuss its impact']
+                },
+                claim1: {
+                    mainArgument: 'Learning English opens doors to international career opportunities',
+                    reason: 'English dominates business communication worldwide',
+                    example: 'Multinational companies require English proficiency',
+                    result: 'Job prospects expand globally'
+                },
+                claim2: {
+                    mainArgument: 'English fluency grants access to vast educational resources',
+                    reason: 'Most academic research is published in English',
+                    example: 'Online courses predominantly use English',
+                    result: 'Learners access cutting-edge knowledge'
+                },
+                claim3: {
+                    mainArgument: 'May threaten linguistic diversity (COUNTER)',
+                    reason: 'Diminishing use of minority languages',
+                    example: 'Students without English access face limited opportunities',
+                    contrast: 'Although important, multilingualism should be promoted'
+                },
+                conclusion: {
+                    summary: 'Learning English provides significant practical advantages',
+                    finalView: 'English proficiency should be pursued alongside preserving native languages'
+                }
+            },
+            diet: {
+                intro: {
+                    mainIdea: 'Maintaining a healthy diet is crucial for wellbeing',
+                    points: ['Nutrition directly impacts health', 'Modern lifestyles make healthy eating challenging', 'How can we tackle this problem?']
+                },
+                claim1: {
+                    mainArgument: 'Eating healthily prevents chronic diseases',
+                    reason: 'Proper nutrition strengthens immune systems',
+                    example: 'Diets rich in vegetables significantly reduce health risks',
+                    result: 'Medical costs decrease substantially'
+                },
+                claim2: {
+                    mainArgument: 'Proper nutrition enhances energy levels',
+                    reason: 'Balanced meals stabilize blood sugar',
+                    example: 'People experience improved concentration and productivity',
+                    result: 'Both mental and physical performance improve'
+                },
+                claim3: {
+                    mainArgument: 'Healthy eating can be expensive and time-consuming (COUNTER)',
+                    reason: 'Higher costs of fresh produce',
+                    example: 'Organic foods cost significantly more',
+                    contrast: 'Although challenging, government subsidies could help'
+                },
+                conclusion: {
+                    summary: 'Maintaining a healthy diet offers profound benefits despite challenges',
+                    finalView: 'Society should prioritize nutrition education and food accessibility'
+                }
             }
         };
 
@@ -1109,6 +1065,7 @@
         function selectTopic(id) {
             currentTopic = id;
             renderTopics();
+            renderComposer();
             updatePreview();
         }
 
@@ -1153,9 +1110,11 @@
                     <div class="dropdowns-row">
                         ${renderDropdownBtn('intro', 'background', 'Background Info')}
                         ${renderDropdownBtn('intro', 'aim', 'Essay Aim')}
+                        ${renderIdeasBtn('intro', 'ideas', '💡 IDEAS')}
                     </div>
                     ${renderDropdownPanel('intro', 'background')}
                     ${renderDropdownPanel('intro', 'aim')}
+                    ${renderIdeasPanel('intro')}
                     <textarea class="paragraph-input" placeholder="Write your complete introduction paragraph here..."
                               oninput="handleInput('intro', this.value)">${essayData['intro'] || ''}</textarea>
                 </div>
@@ -1185,6 +1144,9 @@
                         ${renderDropdownBtn(id, 'compare', 'Compare')}
                         ${renderDropdownBtn(id, 'contrast', 'Contrast')}
                     </div>
+                    <div class="dropdowns-row">
+                        ${renderIdeasBtn(id, 'ideas', '💡 IDEAS')}
+                    </div>
                     ${renderDropdownPanel(id, 'listing')}
                     ${renderDropdownPanel(id, 'opinion')}
                     ${renderDropdownPanel(id, 'claim')}
@@ -1193,6 +1155,7 @@
                     ${renderDropdownPanel(id, 'result')}
                     ${renderDropdownPanel(id, 'compare')}
                     ${renderDropdownPanel(id, 'contrast')}
+                    ${renderIdeasPanel(id)}
                     <textarea class="paragraph-input" placeholder="Write your complete ${title} paragraph here..."
                               oninput="handleInput('${id}', this.value)">${essayData[id] || ''}</textarea>
                 </div>
@@ -1213,10 +1176,12 @@
                         ${renderDropdownBtn('conclusion', 'conclusion', 'Conclusion Phrase')}
                         ${renderDropdownBtn('conclusion', 'opinion', 'Opinion')}
                         ${renderDropdownBtn('conclusion', 'finalThought', 'Final Thought')}
+                        ${renderIdeasBtn('conclusion', 'ideas', '💡 IDEAS')}
                     </div>
                     ${renderDropdownPanel('conclusion', 'conclusion')}
                     ${renderDropdownPanel('conclusion', 'opinion')}
                     ${renderDropdownPanel('conclusion', 'finalThought')}
+                    ${renderIdeasPanel('conclusion')}
                     <textarea class="paragraph-input" placeholder="Write your complete conclusion paragraph here..."
                               oninput="handleInput('conclusion', this.value)">${essayData['conclusion'] || ''}</textarea>
                 </div>
@@ -1226,6 +1191,11 @@
         function renderDropdownBtn(section, type, label) {
             const id = `${section}-${type}`;
             return `<button class="dropdown-btn" onclick="toggleDropdown('${id}')">${label} ▼</button>`;
+        }
+
+        function renderIdeasBtn(section, type, label) {
+            const id = `${section}-${type}`;
+            return `<button class="dropdown-btn ideas-btn" onclick="toggleDropdown('${id}')">${label}</button>`;
         }
 
         function renderDropdownPanel(section, type) {
@@ -1240,21 +1210,83 @@
                         <div class="level-content">
                             ${phrases.natural.map(p => `<div class="phrase-item">${p}</div>`).join('')}
                         </div>
-                        <div class="level-why">Too casual for academic writing - uses simple vocabulary and conversational tone</div>
+                        <div class="level-why">Too casual for academic writing</div>
                     </div>
                     <div class="level intermediate">
                         <div class="level-header">⚠️ B2 - Acceptable</div>
                         <div class="level-content">
                             ${phrases.intermediate.map(p => `<div class="phrase-item">${p}</div>`).join('')}
                         </div>
-                        <div class="level-why">More formal - suitable for B2 level essays with emerging academic features</div>
+                        <div class="level-why">More formal - suitable for B2 level</div>
                     </div>
                     <div class="level academic">
                         <div class="level-header">✅ C1 - TARGET LEVEL</div>
                         <div class="level-content">
                             ${phrases.academic.map(p => `<div class="phrase-item">${p}</div>`).join('')}
                         </div>
-                        <div class="level-why">Sophisticated vocabulary and scholarly tone - aim for these expressions!</div>
+                        <div class="level-why">Sophisticated vocabulary and scholarly tone</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderIdeasPanel(section) {
+            const id = `${section}-ideas`;
+            const ideas = topicIdeas[currentTopic][section];
+            
+            if (!ideas) return '';
+            
+            let content = '';
+            
+            if (section === 'intro') {
+                content = `
+                    <div class="idea-section">
+                        <div class="idea-label">Main Idea</div>
+                        <div class="idea-text">${ideas.mainIdea}</div>
+                    </div>
+                    <div class="idea-section">
+                        <div class="idea-label">Supporting Points</div>
+                        <ul class="idea-list">
+                            ${ideas.points.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else if (section.startsWith('claim')) {
+                content = `
+                    <div class="idea-section">
+                        <div class="idea-label">Main Argument</div>
+                        <div class="idea-text">${ideas.mainArgument}</div>
+                    </div>
+                    <div class="idea-section">
+                        <div class="idea-label">Reason Why</div>
+                        <div class="idea-text">${ideas.reason}</div>
+                    </div>
+                    <div class="idea-section">
+                        <div class="idea-label">Example to Use</div>
+                        <div class="idea-text">${ideas.example}</div>
+                    </div>
+                    <div class="idea-section">
+                        <div class="idea-label">${ideas.contrast ? 'Contrast/Mitigation' : 'Result/Impact'}</div>
+                        <div class="idea-text">${ideas.contrast || ideas.result}</div>
+                    </div>
+                `;
+            } else if (section === 'conclusion') {
+                content = `
+                    <div class="idea-section">
+                        <div class="idea-label">Summary</div>
+                        <div class="idea-text">${ideas.summary}</div>
+                    </div>
+                    <div class="idea-section">
+                        <div class="idea-label">Final View</div>
+                        <div class="idea-text">${ideas.finalView}</div>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="dropdown-panel ideas-panel" id="panel-${id}">
+                    <div class="ideas-content">
+                        ${content}
                     </div>
                 </div>
             `;
