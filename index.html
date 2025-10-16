@@ -39,11 +39,20 @@
 
         /* SIGNATURE HEADER */
         .header {
-            text-align: center;
-            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .header h1 {
+        .header-content {
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-content h1 {
             font-size: 2.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
@@ -54,7 +63,7 @@
             text-transform: uppercase;
         }
 
-        .header .subtitle {
+        .header-content .subtitle {
             font-size: 0.9rem;
             color: var(--text-muted);
             margin-bottom: 5px;
@@ -62,41 +71,31 @@
             letter-spacing: 0.1em;
         }
 
-        .header .author {
+        .header-content .author {
             font-size: 0.85rem;
             color: var(--gold);
             font-weight: 600;
             margin-bottom: 3px;
         }
 
-        .header .product {
+        .header-content .product {
             font-size: 1.1rem;
             color: var(--text-light);
             font-weight: 600;
             letter-spacing: 0.05em;
         }
 
-        /* CONTROL BAR */
-        .control-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
         .mode-toggle {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             background: var(--bg-card);
-            padding: 6px;
-            border-radius: 10px;
+            padding: 4px;
+            border-radius: 8px;
             border: 2px solid rgba(212, 175, 55, 0.3);
         }
 
         .mode-btn {
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: transparent;
             border: none;
             color: var(--text-light);
@@ -104,6 +103,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 0.85rem;
         }
 
         .mode-btn.active {
@@ -111,33 +111,16 @@
             color: #1a1a1a;
         }
 
-        .topics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
+        /* TOPICS BAR */
+        .topics-bar {
             margin-bottom: 30px;
         }
 
-        .topic-btn {
-            padding: 14px;
-            background: var(--bg-card);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            color: var(--text-light);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .topic-btn:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-        .topic-btn.active {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
-            color: #1a1a1a;
+        .topics {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .composer {
@@ -677,7 +660,39 @@
             box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
+        .topic-btn {
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-light);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .topic-btn:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .topic-btn.active {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: #1a1a1a;
+            border-color: var(--gold);
+        }
+
         @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+            }
+
+            .header > div:first-child {
+                display: none; /* Hide spacer on mobile */
+            }
+
             .preview-popup {
                 position: fixed;
                 top: auto;
@@ -715,20 +730,22 @@
 </head>
 <body>
     <div class="container">
-        <!-- SIGNATURE HEADER -->
         <div class="header">
-            <h1>INTUITY</h1>
-            <p class="subtitle">Intuitive & Immersive</p>
-            <p class="author">Majid Nashtai</p>
-            <p class="product">Essay Generator</p>
-        </div>
-
-        <div class="control-bar">
-            <div class="topics" id="topics"></div>
+            <div style="width: 100px;"></div> <!-- Spacer for balance -->
+            <div class="header-content">
+                <h1>INTUITY</h1>
+                <p class="subtitle">Intuitive & Immersive</p>
+                <p class="author">Majid Nashtai</p>
+                <p class="product">Essay Generator</p>
+            </div>
             <div class="mode-toggle">
                 <button class="mode-btn active" onclick="setMode('full')">📄 Full</button>
                 <button class="mode-btn" onclick="setMode('paragraph')">📋 Para</button>
             </div>
+        </div>
+
+        <div class="topics-bar">
+            <div class="topics" id="topics"></div>
         </div>
 
         <div class="para-nav">
